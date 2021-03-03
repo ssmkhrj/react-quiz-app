@@ -1,0 +1,11 @@
+.ques-num {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-bottom: 0.75em;
+  width: 2em;
+  height: 2em;
+  background: var(--clr-accent);
+  font-weight: 600;
+  color: var(--clr-dark);
+}

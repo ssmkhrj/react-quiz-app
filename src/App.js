@@ -1,23 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Route, Redirect } from "react-router-dom";
+import Categories from "./components/Categories";
+import Config from "./components/Config";
+import Quiz from "./components/Quiz";
+import Results from "./components/Results";
+import ReviewAnswers from "./components/ReviewAnswers";
 
 function App() {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [totalQues, setTotalQues] = useState(10);
+  const [difficulty, setDifficulty] = useState("medium");
+  const [resultMetrics, setResultMetrics] = useState(null);
+  const [stats, setStats] = useState([]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Route exact path="/">
+        {<Redirect to="/category" />}
+      </Route>
+      <Route
+        path="/category"
+        render={() => (
+          <Categories
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        )}
+      />
+      <Route
+        path="/config"
+        render={() => (
+          <Config
+            totalQues={totalQues}
+            setTotalQues={setTotalQues}
+            difficulty={difficulty}
+            setDifficulty={setDifficulty}
+          />
+        )}
+      />
+      <Route
+        path="/question/:quesNum"
+        render={(routeProps) => (
+          <Quiz
+            category={selectedCategory}
+            amount={totalQues}
+            difficulty={difficulty}
+            setResultMetrics={setResultMetrics}
+            setStats={setStats}
+            quesNum={parseInt(routeProps.match.params.quesNum)}
+            {...routeProps}
+          />
+        )}
+      />
+      <Route path="/results" render={() => <Results stats={stats} />}></Route>
+      <Route
+        path="/review-answers"
+        render={() => <ReviewAnswers resultMetrics={resultMetrics} />}
+      ></Route>
     </div>
   );
 }
