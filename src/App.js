@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Route exact path="/">
-        {<Redirect to="/category" />}
+        <Redirect to="/category" />
       </Route>
       <Route
         path="/category"
@@ -27,6 +27,7 @@ function App() {
           />
         )}
       />
+      {!selectedCategory && <Redirect to="/category" />}
       <Route
         path="/config"
         render={() => (
